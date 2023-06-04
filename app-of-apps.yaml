@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:raziel-93/gitops-configuration.git
+    repoURL: https://github.com/raziel-93/gitops-configuration.git
     targetRevision: HEAD
     path: ./infra-apps
   destination:
