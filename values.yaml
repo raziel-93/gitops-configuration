@@ -1,0 +1,86 @@
+# Default values for helm-democrmv4.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+Global:
+  replicaCount: 2
+  name: democrm
+  image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins:1.0.2
+  
+  
+#Deployment
+deployment:
+  port: 3000
+  volumeName: config-volume
+  mountPath: /app/.env.local
+  subPath: .env.local 
+  volumeEnabled: true
+  resourceLimits: { memory: "128Mi", cpu: "250m" }
+  resourceRequests: { memory: "128Mi", cpu: "250m" }
+
+
+#Secret
+mongoSecret:
+  name: mongov1
+  username: root
+  password: password
+
+
+#enviroment vars:
+env:
+  - name: MONGO_INITDB_ROOT_USERNAME
+    key: mongo-user
+  - name: MONGO_INITDB_ROOT_PASSWORD
+    key: mongo-password
+
+
+
+#ConfigMap
+config:
+  LOG_LEVEL: info
+  PERSISTENCE: true
+
+
+#Service
+service_democrm:
+  port: 80
+  name: democrm-service
+
+
+# Ingress
+ingress:
+  clusterIssuer: cryt-crm
+  ingressClassName: nginx
+  host: razieldemocrm.hopto.org 
+  secretName: democrm-cert
+
+
+# ClusterIssuer
+cluster_issuer:
+  name: cryt-crm
+  acmeServer: https://acme-v02.api.letsencrypt.org/directory
+  email: afandaev93@gmail.com
+  privateKeySecretRef: cryt-crm
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+
+
+
+#Mongo helm
+mongodb:
+  commonLabels: {app: mongo}
+  architecture: replicaset
+  auth:
+    rootUser: root
+    rootPassword: password
+  replicaCount: 3
+  service.nameOverride: mongodb-service
+  persistence.storageClass: standard
+  persistence.size: 1Gi

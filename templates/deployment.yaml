@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.Global.name }}
+  labels:
+    app: {{ .Values.Global.name }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.Global.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.Global.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.Global.name }}
+    spec:
+      containers:
+      - name: {{ .Values.Global.name }}
+        image: {{ .Values.Global.image }}
+        ports:
+        - containerPort: {{ .Values.deployment.port }}
+        resources:
+          limits: {{- toYaml .Values.deployment.resourceLimits | nindent 12 }}
+          requests: {{- toYaml .Values.deployment.resourceRequests | nindent 12 }}
+        # env:
+        # - name: MONGO_USERNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: "{{ .Values.mongoSecret.name }}-secret"
+        #       key: mongo-user
+        # - name: MONGO_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: "{{ .Values.mongoSecret.name }}-secret"
+        #       key: mongo-password
+        # - name: MONGODB_URI
+        #   value: mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@helm-democrmv4-mongodb-headless:27017
+        env:
+        {{- range .Values.env }}
+          - name: {{ .name }}
+            valueFrom:
+              secretKeyRef:
+                name: "{{ $.Values.mongoSecret.name }}-secret"
+                key: {{ .key }}
+        {{- end }}
+          - name: MONGODB_URI
+            value: mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@democrm-mongodb-headless:27017
+
+{{- if .Values.deployment.volumeEnabled }}
+        volumeMounts:
+        - name: {{ .Values.deployment.volumeName }}
+          mountPath: {{ .Values.deployment.mountPath }}
+          subPath:  {{ .Values.deployment.subPath }}
+          readOnly: true
+{{- end }}
+
+      volumes:
+      - name: config-volume
+        configMap:
+          name: "{{ .Values.mongoSecret.name }}-config"
+        
+
+        
+        
