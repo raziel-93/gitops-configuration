@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: democrm
+  name: app-of-apps
   namespace: default
 spec:
   project: default
   source:
     repoURL: https://github.com/raziel-93/gitops-configuration.git
     targetRevision: HEAD
-    path: ./to-doo-app
+    path: ./infra-apps
   destination:
     server: https://kubernetes.default.svc
     namespace: default
