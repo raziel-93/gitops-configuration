@@ -10,7 +10,7 @@ Global:
   
 #Deployment
 deployment:
-  port: 3000
+  port: 7070
   volumeName: config-volume
   mountPath: /app/.env.local
   subPath: .env.local 
