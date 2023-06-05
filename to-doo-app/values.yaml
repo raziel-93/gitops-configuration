@@ -19,7 +19,8 @@ mongoSecret:
   name: mongov1
   username: root
   password: password
-  db_service: democrm-mongodb-headless
+  # db_service: democrm-mongodb-headless
+  db_service: democrm-mongodb-0.democrm-mongodb-headless.default.svc.cluster.local
 env:
 - name: MONGO_INITDB_ROOT_USERNAME
   key: mongo-user
