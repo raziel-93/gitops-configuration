@@ -56,7 +56,7 @@ mongodb:
   auth:
     rootUser: root
     rootPassword: password
-  replicaCount: 1
+  replicaCount: 3
   service.nameOverride: mongodb-service
   persistence.storageClass: standard
   persistence.size: 1Gi
