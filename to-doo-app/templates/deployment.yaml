@@ -37,14 +37,14 @@ spec:
         #       key: mongo-password
         # - name: MONGODB_URI
         #   value: mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@helm-democrmv4-mongodb-headless:27017
-        # env:
-        # {{- range .Values.env }}
-        #   - name: {{ .name }}
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: "{{ $.Values.mongoSecret.name }}-secret"
-        #         key: {{ .key }}
-        # {{- end }}
+        env:
+        {{- range .Values.env }}
+          - name: {{ .name }}
+            valueFrom:
+              secretKeyRef:
+                name: "{{ $.Values.mongoSecret.name }}-secret"
+                key: {{ .key }}
+        {{- end }}
         #   - name: MONGODB_URI
         #     value: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_DB_SERVICE}:27017
 
