@@ -5,7 +5,7 @@
 Global:
   replicaCount: 2
   name: democrm
-  image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins:latest
+  image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins
   tag: 2.1.3
   
 #Deployment

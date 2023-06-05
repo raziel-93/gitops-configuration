@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.Global.name }}
-        image: {{ .Values.Global.image }}
+        image: "{{ printf "%s:%s" .Values.Global.image.repository .Values.Global.image.tag }}"
         ports:
         - containerPort: {{ .Values.deployment.port }}
         resources:
