@@ -1,9 +1,33 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: {{ .Values.Global.name }}-ingress
+#   annotations:
+#     cert-manager.io/cluster-issuer: "{{ .Values.ingress.clusterIssuer }}"
+# spec:
+#   ingressClassName: {{ .Values.ingress.ingressClassName }}
+#   tls:
+#     - hosts:
+#         - {{ .Values.ingress.host }}
+#       secretName: {{ .Values.ingress.secretName }}
+#   rules:
+#     - host: {{ .Values.ingress.host }}
+#       http:
+#         paths:
+#           - pathType: Prefix
+#             path: "/"
+#             backend:
+#               service:
+#                 name: {{ .Values.service_democrm.name }}
+#                 port:
+#                   number: {{ .Values.service_democrm.port }}
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.Global.name }}-ingress
   annotations:
-    cert-manager.io/cluster-issuer: "{{ .Values.ingress.clusterIssuer }}"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: {{ .Values.ingress.ingressClassName }}
   tls:
@@ -14,8 +38,29 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - pathType: Prefix
-            path: "/"
+          - path: /signup
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.service_democrm.name }}
+                port:
+                  number: {{ .Values.service_democrm.port }}
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.service_democrm.name }}
+                port:
+                  number: {{ .Values.service_democrm.port }}
+          - path: /logout
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.service_democrm.name }}
+                port:
+                  number: {{ .Values.service_democrm.port }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Values.service_democrm.name }}
