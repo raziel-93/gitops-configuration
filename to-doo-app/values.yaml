@@ -39,9 +39,9 @@ env:
 
 
 #ConfigMap
-config:
-  LOG_LEVEL: info
-  PERSISTENCE: true
+# config:
+  # LOG_LEVEL: info
+  # PERSISTENCE: true
 
 
 #Service
