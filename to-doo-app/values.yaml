@@ -5,15 +5,15 @@
 Global:
   replicaCount: 2
   name: democrm
-  image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins:1.0.2
+  image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins:2.1.3
   
   
 #Deployment
 deployment:
   port: 7070
   volumeName: config-volume
-  mountPath: /app/.env.local
-  subPath: .env.local 
+  mountPath: /app/.env
+  subPath: .env 
   volumeEnabled: true
   resourceLimits: { memory: "128Mi", cpu: "250m" }
   resourceRequests: { memory: "128Mi", cpu: "250m" }
@@ -24,6 +24,7 @@ mongoSecret:
   name: mongov1
   username: root
   password: password
+  db_service: democrm-mongodb-headless
 
 
 #enviroment vars:
@@ -32,6 +33,8 @@ env:
     key: mongo-user
   - name: MONGO_INITDB_ROOT_PASSWORD
     key: mongo-password
+  - name: MONGO_DB_SERVICE
+    key: service_name
 
 
 
