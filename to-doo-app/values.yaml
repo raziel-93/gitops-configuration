@@ -2,7 +2,7 @@ Global:
   replicaCount: 2
   name: democrm
   image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins
-  tag: 2.1.23
+  tag: 2.1.24
 deployment:
   port: 7070
   volumeName: config-volume
