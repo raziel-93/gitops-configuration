@@ -1,85 +1,57 @@
-# Default values for helm-democrmv4.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 Global:
   replicaCount: 2
   name: democrm
   image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins
-  tag: 2.1.3
-  
-#Deployment
+  tag: 2.1.11
 deployment:
   port: 7070
   volumeName: config-volume
   mountPath: /app/.env
-  subPath: .env 
+  subPath: .env
   volumeEnabled: true
-  resourceLimits: { memory: "128Mi", cpu: "250m" }
-  resourceRequests: { memory: "128Mi", cpu: "250m" }
-
-
-#Secret
+  resourceLimits:
+    memory: 128Mi
+    cpu: 250m
+  resourceRequests:
+    memory: 128Mi
+    cpu: 250m
 mongoSecret:
   name: mongov1
   username: root
   password: password
   db_service: democrm-mongodb-headless
-
-
-#enviroment vars:
 env:
-  - name: MONGO_INITDB_ROOT_USERNAME
-    key: mongo-user
-  - name: MONGO_INITDB_ROOT_PASSWORD
-    key: mongo-password
-  - name: MONGO_DB_SERVICE
-    key: service_name
-
-
-
-#ConfigMap
+- name: MONGO_INITDB_ROOT_USERNAME
+  key: mongo-user
+- name: MONGO_INITDB_ROOT_PASSWORD
+  key: mongo-password
+- name: MONGO_DB_SERVICE
+  key: service_name
 config:
   MONGO_INITDB_ROOT_USERNAME: root
   MONGO_INITDB_ROOT_PASSWORD: password
   MONGO_DB_SERVICE: democrm-mongodb-headless
-
-
-#Service
 service_democrm:
   port: 80
   name: democrm-service
-
-
-# Ingress
 ingress:
   clusterIssuer: cryt-crm
   ingressClassName: nginx
-  host: razieldemocrm.hopto.org 
+  host: razieldemocrm.hopto.org
   secretName: democrm-cert
-
-
-# ClusterIssuer
 cluster_issuer:
   name: cryt-crm
   acmeServer: https://acme-v02.api.letsencrypt.org/directory
   email: afandaev93@gmail.com
   privateKeySecretRef: cryt-crm
-
-
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-
-
-
-#Mongo helm
 mongodb:
-  commonLabels: {app: mongo}
+  commonLabels:
+    app: mongo
   architecture: replicaset
   auth:
     rootUser: root
