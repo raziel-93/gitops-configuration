@@ -39,9 +39,10 @@ env:
 
 
 #ConfigMap
-# config:
-  # LOG_LEVEL: info
-  # PERSISTENCE: true
+config:
+  MONGO_INITDB_ROOT_USERNAME: root
+  MONGO_INITDB_ROOT_PASSWORD: password
+  MONGO_DB_SERVICE: democrm-mongodb-headless
 
 
 #Service

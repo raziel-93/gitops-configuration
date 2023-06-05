@@ -48,18 +48,18 @@ spec:
           - name: MONGODB_URI
             value: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_DB_SERVICE}:27017
 
-# {{- if .Values.deployment.volumeEnabled }}
-#         volumeMounts:
-#         - name: {{ .Values.deployment.volumeName }}
-#           mountPath: {{ .Values.deployment.mountPath }}
-#           subPath:  {{ .Values.deployment.subPath }}
-#           readOnly: true
-# {{- end }}
+{{- if .Values.deployment.volumeEnabled }}
+        volumeMounts:
+        - name: {{ .Values.deployment.volumeName }}
+          mountPath: {{ .Values.deployment.mountPath }}
+          subPath:  {{ .Values.deployment.subPath }}
+          readOnly: true
+{{- end }}
 
-#       volumes:
-#       - name: config-volume
-#         configMap:
-#           name: "{{ .Values.mongoSecret.name }}-config"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: "{{ .Values.mongoSecret.name }}-config"
         
 
         
