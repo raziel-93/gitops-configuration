@@ -46,7 +46,7 @@ spec:
                 key: {{ .key }}
         {{- end }}
           - name: MONGODB_URI
-            value: mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@$(MONGO_DB_SERVICE):27017/?readPreference=primary
+            value: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_DB_SERVICE}:27017/?readPreference=primary
 
 {{- if .Values.deployment.volumeEnabled }}
         volumeMounts:
