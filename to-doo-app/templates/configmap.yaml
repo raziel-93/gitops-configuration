@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: "{{ .Values.mongoSecret.name }}-config"
 data:
-  .env.local: |
+  .env: |
 {{- range $key, $value := .Values.config }}
     {{ $key }}="{{ $value }}"
 {{- end }}
