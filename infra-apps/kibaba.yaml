@@ -4,7 +4,7 @@ metadata:
   name: kibana
   namespace: default
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: default
@@ -16,7 +16,7 @@ spec:
     helm:
       values: |
         elasticsearch:
-          hosts: 
+          hosts:
             - "elasticsearch.default.svc.cluster.local"
           port: 9200
   project: default
