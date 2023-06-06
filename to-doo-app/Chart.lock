@@ -2,11 +2,8 @@ dependencies:
 - name: mongodb
   repository: https://charts.bitnami.com/bitnami
   version: 13.13.0
-- name: ingress-nginx
-  repository: https://kubernetes.github.io/ingress-nginx
-  version: 4.6.1
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.11.2
-digest: sha256:13c07101e89be1e4bbaeb1dbb92196de70848b1612c2d16cdc4bcb5bfd8f4a2d
-generated: "2023-06-06T11:17:17.24662892+03:00"
+digest: sha256:d3fd9c057dfcdba7bd9e7377dafcc2aa1da19b59dbb82aeded31f8f449f8ddc7
+generated: "2023-06-06T12:16:28.258205998+03:00"
