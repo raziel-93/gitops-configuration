@@ -2,7 +2,7 @@ Global:
   replicaCount: 2
   name: democrm
   image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins
-  tag: 2.1.41
+  tag: 2.1.40
 deployment:
   port: 7070
   volumeName: config-volume
@@ -20,6 +20,7 @@ mongoSecret:
   username: root
   password: password
   db_service: democrm-mongodb-headless
+  url: mongodb://root:password@democrm-mongodb-headless:27017/?replicaSet=rs0
 env:
 - name: MONGO_INITDB_ROOT_USERNAME
   key: mongo-user
@@ -27,10 +28,14 @@ env:
   key: mongo-password
 - name: MONGO_DB_SERVICE
   key: service_name
+- name: MONGO_URL
+  key: url
 config:
   MONGO_INITDB_ROOT_USERNAME: root
   MONGO_INITDB_ROOT_PASSWORD: password
   MONGO_DB_SERVICE: democrm-mongodb-headless
+  MONGO_URL: mongodb://root:password@democrm-mongodb-headless:27017/?replicaSet=rs0
+
 service_democrm:
   port: 80
   name: democrm-service
