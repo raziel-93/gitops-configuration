@@ -1,0 +1,127 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: kube-prometheus-stack
+#   namespace: default
+#   finalizers:
+#   - resources-finalizer.argocd.argoproj.io
+# spec:
+#   destination:
+#     namespace: kube-prometheus-stack
+#     server: 'https://kubernetes.default.svc'
+#   source:
+#     chart: kube-prometheus-stack
+#     repoURL: https://prometheus-community.github.io/helm-charts
+#     targetRevision: 46.6.0
+#     helm:
+#       values: |
+#         prometheus:
+#           prometheusSpec:
+#             podMonitorSelectorNilUsesHelmValues: false
+#             serviceMonitorSelectorNilUsesHelmValues: false
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: default
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: kube-prometheus-stack
+    server: 'https://kubernetes.default.svc'
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 46.6.0
+    helm:
+      values: |
+        prometheus:
+          prometheusSpec:
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+        grafana:
+          dashboards:
+            default:
+              example: |
+                {
+                  "apiVersion": "k8s.kevingomez.fr/v1alpha1",
+                  "kind": "GrafanaDashboard",
+                  "metadata": {
+                    "name": "example-dashboard"
+                  },
+                  "spec": {
+                    "grafanaDashboard": {
+                      "title": "Example Dashboard",
+                      "panels": [
+                        {
+                          "aliasColors": {},
+                          "bars": false,
+                          "dashLength": 10,
+                          "dashes": false,
+                          "datasource": "prometheus",
+                          "fill": 1,
+                          "fillGradient": 0,
+                          "gridPos": {
+                            "h": 9,
+                            "w": 12,
+                            "x": 0,
+                            "y": 0
+                          },
+                          "id": 2,
+                          "legend": {
+                            "avg": false,
+                            "current": false,
+                            "max": false,
+                            "min": false,
+                            "show": true,
+                            "total": false,
+                            "values": false
+                          },
+                          "lines": true,
+                          "linewidth": 1,
+                          "nullPointMode": "null",
+                          "options": {
+                            "dataLinks": []
+                          },
+                          "percentage": false,
+                          "pointradius": 2,
+                          "points": false,
+                          "renderer": "flot",
+                          "seriesOverrides": [],
+                          "spaceLength": 10,
+                          "stack": false,
+                          "steppedLine": false,
+                          "targets": [
+                            {
+                              "expr": "alertmanager_alerts",
+                              "refId": "A"
+                            }
+                          ],
+                          "thresholds": [],
+                          "timeFrom": null,
+                          "timeRegions": [],
+                          "timeShift": null,
+                          "title": "Panel Title",
+                          "tooltip": {
+                            "shared": true,
+                            "sort": 0,
+                            "value_type": "individual"
+                          },
+                          "type": "graph"
+                        }
+                      ]
+                    }
+                  }
+                }
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
