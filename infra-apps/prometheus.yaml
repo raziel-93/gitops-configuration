@@ -1,0 +1,170 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: kube-prometheus-stack
+#   namespace: default
+#   finalizers:
+#   - resources-finalizer.argocd.argoproj.io
+# spec:
+#   destination:
+#     namespace: kube-prometheus-stack
+#     server: 'https://kubernetes.default.svc'
+#   source:
+#     chart: kube-prometheus-stack
+#     repoURL: https://prometheus-community.github.io/helm-charts
+#     targetRevision: 46.6.0
+#     helm:
+#       values: |
+#         prometheus:
+#           prometheusSpec:
+#             podMonitorSelectorNilUsesHelmValues: false
+#             serviceMonitorSelectorNilUsesHelmValues: false
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: default
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: kube-prometheus-stack
+    server: 'https://kubernetes.default.svc'
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 46.6.0
+    helm:
+      values: |
+        prometheus:
+          prometheusSpec:
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-prometheus-stack-dashboard
+  namespace: kube-prometheus-stack
+data:
+  my-dashboard.json: |-
+    {
+      "dashboard": {
+        "title": "to-do",
+        "panels": [
+          {
+            "type": "timeseries",
+            "title": "Cpu usage",
+            "gridPos": {
+              "x": 3,
+              "y": 0,
+              "w": 12,
+              "h": 8
+            },
+            "datasource": {
+              "uid": "prometheus",
+              "type": "prometheus"
+            },
+            "id": 1,
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "prometheus"
+                },
+                "refId": "A",
+                "editorMode": "code",
+                "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)\n",
+                "legendFormat": "__auto",
+                "range": true
+              }
+            ],
+            "options": {
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              },
+              "legend": {
+                "showLegend": true,
+                "displayMode": "list",
+                "placement": "bottom",
+                "calcs": []
+              },
+              "timezone": [
+                "Asia/Jerusalem"
+              ]
+            },
+            "fieldConfig": {
+              "defaults": {
+                "custom": {
+                  "drawStyle": "line",
+                  "lineInterpolation": "linear",
+                  "barAlignment": 0,
+                  "lineWidth": 1,
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "spanNulls": false,
+                  "showPoints": "auto",
+                  "pointSize": 5,
+                  "stacking": {
+                    "mode": "none",
+                    "group": "A"
+                  },
+                  "axisPlacement": "auto",
+                  "axisLabel": "",
+                  "axisColorMode": "series",
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "axisCenteredZero": false,
+                  "hideFrom": {
+                    "tooltip": false,
+                    "viz": false,
+                    "legend": false
+                  },
+                  "thresholdsStyle": {
+                    "mode": "dashed"
+                  },
+                  "lineStyle": {
+                    "fill": "solid"
+                  }
+                },
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 90
+                    }
+                  ]
+                },
+                "unit": "percent",
+                "max": 100
+              },
+              "overrides": []
+            }
+          }
+        ]
+      },
+      "overwrite": true
+    }
