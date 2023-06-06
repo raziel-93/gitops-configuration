@@ -1,13 +1,10 @@
 Global:
   replicaCount: 2
-  name: democrm
+  name: todoo
   image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins
   tag: 2.1.42
 deployment:
   port: 7070
-  # volumeName: config-volume
-  # mountPath: /app/.env
-  # subPath: .env
   volumeEnabled: true
   resourceLimits:
     memory: 128Mi
@@ -17,32 +14,18 @@ deployment:
     cpu: 250m
 mongoSecret:
   name: mongov1
-  # username: root
-  # password: password
-  # db_service: democrm-mongodb-headless
-  url: mongodb://root:password@democrm-mongodb-headless:27017/?replicaSet=rs0
+  url: mongodb://root:password@todoo-mongodb-headless:27017/?replicaSet=rs0
 env:
-# - name: MONGO_INITDB_ROOT_USERNAME
-#   key: mongo-user
-# - name: MONGO_INITDB_ROOT_PASSWORD
-#   key: mongo-password
-# - name: MONGO_DB_SERVICE
-#   key: service_name
 - name: MONGO_URL
   key: url
-# config:
-#   MONGO_INITDB_ROOT_USERNAME: root
-#   MONGO_INITDB_ROOT_PASSWORD: password
-#   MONGO_DB_SERVICE: democrm-mongodb-headless
-#   MONGO_URL: mongodb://root:password@democrm-mongodb-headless:27017/?replicaSet=rs0
-service_democrm:
+service_todoo:
   port: 80
-  name: democrm-service
+  name: todoo-service
 ingress:
   clusterIssuer: cryt-crm
   ingressClassName: nginx
   host: razieldemocrm.hopto.org
-  secretName: democrm-cert
+  secretName: todoo-cert
 cluster_issuer:
   name: cryt-crm
   acmeServer: https://acme-v02.api.letsencrypt.org/directory

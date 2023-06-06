@@ -24,19 +24,6 @@ spec:
         resources:
           limits: {{- toYaml .Values.deployment.resourceLimits | nindent 12 }}
           requests: {{- toYaml .Values.deployment.resourceRequests | nindent 12 }}
-        # env:
-        # - name: MONGO_USERNAME
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: "{{ .Values.mongoSecret.name }}-secret"
-        #       key: mongo-user
-        # - name: MONGO_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: "{{ .Values.mongoSecret.name }}-secret"
-        #       key: mongo-password
-        # - name: MONGODB_URI
-        #   value: mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@helm-democrmv4-mongodb-headless:27017
         env:
         {{- range .Values.env }}
           - name: {{ .name }}
@@ -45,22 +32,6 @@ spec:
                 name: "{{ $.Values.mongoSecret.name }}-secret"
                 key: {{ .key }}
         {{- end }}
-        #   - name: MONGODB_URI
-        #     value: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_DB_SERVICE}:27017
 
-# {{- if .Values.deployment.volumeEnabled }}
-#         volumeMounts:
-#         - name: {{ .Values.deployment.volumeName }}
-#           mountPath: {{ .Values.deployment.mountPath }}
-#           subPath:  {{ .Values.deployment.subPath }}
-#           readOnly: true
-# {{- end }}
 
-#       volumes:
-#       - name: config-volume
-#         configMap:
-#           name: "{{ .Values.mongoSecret.name }}-config"
-        
-
-        
         
