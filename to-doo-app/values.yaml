@@ -2,7 +2,7 @@ Global:
   replicaCount: 2
   name: todoo
   image: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/raziel-jenkins
-  tag: 2.1.42
+  tag: 2.1.46
 deployment:
   port: 7070
   volumeEnabled: true
