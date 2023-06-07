@@ -18,8 +18,8 @@ spec:
             path: "/"
             backend:
               service:
-                name: {{ .Values.service_democrm.name }}
+                name: {{ .Values.service_todoo.name }}
                 port:
-                  number: {{ .Values.service_democrm.port }}
+                  number: {{ .Values.service_todoo.port }}
 
 

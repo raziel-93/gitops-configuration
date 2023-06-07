@@ -25,7 +25,7 @@ ingress:
   clusterIssuer: cryt-crm
   ingressClassName: nginx
   host: razieldemocrm.hopto.org
-  secretName: todoo-cert
+  secretName: democrm-cert
 cluster_issuer:
   name: cryt-crm
   acmeServer: https://acme-v02.api.letsencrypt.org/directory
